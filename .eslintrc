@@ -6,6 +6,7 @@
     "no-new": "off",
     "init-declarations": "off",
     "no-undefined": "off",
-    "func-style": "off"
+    "func-style": "off",
+    "new-cap": "off"
   }
 }

@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    entry: './src/superclass.js',
+    entry: './src/index.js',
     target: 'node',
     module: {
         rules: [

@@ -1,113 +1,6 @@
-/* eslint-disable new-cap */
-
-import { mixin, superclass, SuperclassError } from './superclass';
 import { EventEmitter } from 'events';
-
-describe('mixin', () => {
-    test('is a function', () => {
-        expect(mixin).toBeFunction();
-    });
-    test('throws expected error on invalid base', () => {
-        try {
-            mixin('this-is;not/a~valid_class');
-        } catch (err) {
-            expect(err).toBeInstanceOf(SuperclassError);
-            expect(err.message).toMatchSnapshot();
-        }
-    });
-    test('throws expected error on invalid transformer', () => {
-        try {
-            mixin(Object, 'this-is;not/a~valid_transformer');
-        } catch (err) {
-            expect(err).toBeInstanceOf(SuperclassError);
-            expect(err.message).toMatchSnapshot();
-        }
-    });
-    test('throws expected error on invalid base and transformer', () => {
-        try {
-            mixin('this-is;not/a~valid_class', 'this-is;not/a~valid_transformer');
-        } catch (err) {
-            expect(err).toBeInstanceOf(SuperclassError);
-            expect(err.message).toMatchSnapshot();
-        }
-    });
-    test('throws expected error on invalid base and valid function transformer', () => {
-        try {
-            mixin('this-is;not/a~valid_class', () => {});
-        } catch (err) {
-            expect(err).toBeInstanceOf(SuperclassError);
-            expect(err.message).toMatchSnapshot();
-        }
-    });
-    test('throws expected error on invalid transformer result', () => {
-        try {
-            new class extends mixin(Object, () => null) {};
-        } catch (err) {
-            expect(err).toBeInstanceOf(SuperclassError);
-            expect(err.message).toMatchSnapshot();
-        }
-    });
-    describe('works as expected', () => {
-        test('returns a function', () => {
-            expect(mixin(Object)).toBeFunction();
-        });
-        test('without transformer', () => {
-            class Hello {
-                constructor(msg) {
-                    this.message = msg;
-                }
-            }
-            class HelloToo extends mixin(Hello) {}
-            const testMessage = 'test.hello.message1234567890-';
-            const hello = new Hello(testMessage);
-            const helloToo = new HelloToo(testMessage);
-            expect(hello).toHaveProperty('message', testMessage);
-            expect(helloToo).toHaveProperty('message', testMessage);
-        });
-        test('with undefined transformer', () => {
-            class Hello {
-                constructor(msg) {
-                    this.message = msg;
-                }
-            }
-            class HelloToo extends mixin(Hello, undefined) {}
-            const testMessage = 'test.hello.message1234567890-';
-            const hello = new Hello(testMessage);
-            const helloToo = new HelloToo(testMessage);
-            expect(hello).toHaveProperty('message', testMessage);
-            expect(helloToo).toHaveProperty('message', testMessage);
-        });
-        test('with null transformer', () => {
-            class Hello {
-                constructor(msg) {
-                    this.message = msg;
-                }
-            }
-            class FuckYou extends mixin(Hello, null) {}
-            const testMessage = 'test.hello.message1234567890-';
-            const hello = new Hello(testMessage);
-            const helloToo = new FuckYou(testMessage);
-            expect(hello).toHaveProperty('message', testMessage);
-            expect(helloToo).toHaveProperty('message', undefined);
-        });
-        test('with function transformer', () => {
-            class Hello {
-                constructor(msg) {
-                    this.message = msg;
-                }
-            }
-            function toUpperCase(msg) {
-                return [msg.toUpperCase()];
-            }
-            class ExcitedHello extends mixin(Hello, toUpperCase) {}
-            const testMessage = 'test.hello.message1234567890-';
-            const hello = new Hello(testMessage);
-            const helloToo = new ExcitedHello(testMessage);
-            expect(hello).toHaveProperty('message', testMessage);
-            expect(helloToo).toHaveProperty('message', testMessage.toUpperCase());
-        });
-    });
-});
+import { superclass } from './superclass';
+import { mixin } from './mixin';
 
 describe('superclass', () => {
     const __foo__ = Symbol('__foo__');
@@ -194,11 +87,10 @@ describe('superclass', () => {
         try {
             superclass('this-is;not/a~valid_class');
         } catch (err) {
-            expect(err).toBeInstanceOf(SuperclassError);
-            expect(err.message).toMatchSnapshot();
+            expect(err.message).toMatch('base must be constructable');
         }
     });
-    describe('of single Superclass', () => {
+    describe('of single defaultExport', () => {
         test('returns a function', () => {
             expect(SuperFoo).toBeFunction();
         });
@@ -220,7 +112,7 @@ describe('superclass', () => {
                 expect(typeof superFoo[__foo__]).toBe('function');
             });
         });
-        describe('of single Superclass', () => {
+        describe('of single defaultExport', () => {
             test('returns a function', () => {
                 expect(SuperDuperFoo).toBeFunction();
             });

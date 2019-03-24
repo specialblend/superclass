@@ -67,12 +67,12 @@ specialFoo.getBazValue() // 'hello from Baz'
 ### `superclass`
 ```javascript
 /**
- * create a Superclass from a parent class and provided sister classes
+ * create a defaultExport from a parent class and provided sister classes
  * @param {Class} base: the base class to extend
  * @param {Array<Class>} supertypes: the sister classes
- * @returns {Class}: the created Superclass
+ * @returns {Class}: the created defaultExport
  */
-export const superclass = (base, ...supertypes) => {
+export const superclass = (base, ...supertypes) => {}
 ```
 
 #### example: `superclass`
