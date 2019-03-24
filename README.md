@@ -10,7 +10,7 @@ npm i @specialblend/superclass
 ## quickstart
 
 ```javascript
-import { superclass } from '@specialblend/superclass'
+import superclass from '@specialblend/superclass'
 
 class Foo {
     getTestValue() {
@@ -79,7 +79,7 @@ export const superclass = (base, ...supertypes) => {}
 
 ```javascript
 import SomeLogger from '@example/some-logger'
-import { superclass } from '@specialblend/superclass'
+import superclass from '@specialblend/superclass'
 import { EventEmitter } from 'events'
 
 class Logger extends SomeLogger {
