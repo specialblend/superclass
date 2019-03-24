@@ -12,6 +12,15 @@ npm i @specialblend/superclass
 ```javascript
 import { superclass } from '@specialblend/superclass'
 
+class Foo {
+    getTestValue() {
+        return 'test from Foo'
+    }
+    getFooValue() {
+        return 'hello from Foo'
+    }
+}
+
 class Bar {
     getTestValue() {
         return 'test from Bar'
@@ -47,8 +56,9 @@ class SpecialFoo extends superclass(Foo, Bar, Baz) {
 
 const specialFoo = new SpecialFoo
 specialFoo.getTestValue() // 'test from SpecialFoo'
-specialFoo.getBarValue() // 'test from Bar'
-specialFoo.getBazValue() // 'test from Baz'
+specialFoo.getFooValue() // 'hello from Foo'
+specialFoo.getBarValue() // 'hello from Bar'
+specialFoo.getBazValue() // 'hello from Baz'
 
 ````
 
