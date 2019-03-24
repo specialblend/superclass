@@ -77,7 +77,7 @@ export const mixin = (base, transform) => {}
 #### example: `mixin`
 
 ```javascript
-import { mixin } from '@specialblend/superclass'
+import { superclass, mixin } from '@specialblend/superclass'
 
 class SayHello {
     constructor(name) {
