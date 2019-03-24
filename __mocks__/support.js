@@ -1,3 +1,5 @@
+require('jest-extended');
+
 const { log, info, debug, warn, error } = console;
 
 /**

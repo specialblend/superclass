@@ -13,7 +13,7 @@
     "dist"
   ],
   "name": "@specialblend/superclass",
-  "description": "Make ES6 class extend multiple classes",
+  "description": "ES6 class mixin (multi class \"inheritance\") utility - easily extend ES6 classes from multiple classes",
   "repository": {
     "type": "git",
     "url": "git+https://specialblend@github.com/specialblend/superclass.git"
@@ -46,5 +46,10 @@
     "jest": "^24.5.0",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0"
+  },
+  "dependencies": {
+    "@specialblend/pretty-error": "0.0.5",
+    "jest-extended": "^0.11.1",
+    "ramda": "^0.26.1"
   }
 }
