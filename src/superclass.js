@@ -60,11 +60,9 @@ export const mixin = (base, transform) => {
                 super(...props);
                 return;
             }
-            if (typeof transform === 'function') {
-                const transformedProps = transform(...props);
-                assertType(transformedProps, `result of calling ${util.inspect(transform)}`, Array);
-                super(...transformedProps);
-            }
+            const transformedProps = transform(...props);
+            assertType(transformedProps, `result of calling ${util.inspect(transform)}`, Array);
+            super(...transformedProps);
         }
     };
 };

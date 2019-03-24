@@ -10,6 +10,26 @@ exports[`mixin throws expected error on invalid base 1`] = `
 }"
 `;
 
+exports[`mixin throws expected error on invalid base and transformer 1`] = `
+"provided invalid type for argument 1 of [Function: mixin]:
+{
+  allowed: [
+    [Function: Function]
+  ],
+  provided: 'this-is;not/a~valid_class'
+}"
+`;
+
+exports[`mixin throws expected error on invalid base and valid function transformer 1`] = `
+"provided invalid type for argument 1 of [Function: mixin]:
+{
+  allowed: [
+    [Function: Function]
+  ],
+  provided: 'this-is;not/a~valid_class'
+}"
+`;
+
 exports[`mixin throws expected error on invalid transformer 1`] = `
 "provided invalid type for argument 2 of [Function: mixin]:
 {
