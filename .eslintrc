@@ -4,6 +4,8 @@
     "constructor-super": "off",
     "valid-jsdoc": "off",
     "no-new": "off",
-    "init-declarations": "off"
+    "init-declarations": "off",
+    "no-undefined": "off",
+    "func-style": "off"
   }
 }
