@@ -7,6 +7,7 @@
     "lint": "eslint .",
     "build": "webpack",
     "check": "npm run build && npm run test && npm run coverage && npm run lint",
+    "pretest": "npm run build",
     "prepublishOnly": "npm run build"
   },
   "files": [
@@ -38,6 +39,7 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.2",
     "@specialblend/eslint-config": "0.0.0",
+    "@specialblend/pretty-error": "0.0.6",
     "babel-core": "^6.26.3",
     "babel-jest": "^24.5.0",
     "babel-loader": "^8.0.5",
@@ -48,7 +50,8 @@
     "webpack-cli": "^3.3.0"
   },
   "dependencies": {
-    "@specialblend/pretty-error": "0.0.5",
+    "@sindresorhus/is": "^0.15.0",
+    "@specialblend/is-constructable": "0.0.1",
     "jest-extended": "^0.11.1",
     "ramda": "^0.26.1"
   }
