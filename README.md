@@ -7,11 +7,53 @@ ES6 class mixin (multi class "inheritance") utility - easily extend ES6 classes 
 npm i @specialblend/superclass
 ```
 
-## how to use
+## quickstart
 
 ```javascript
-import { superclass, mixin } from '@specialblend/superclass'
+import { superclass } from '@specialblend/superclass'
+
+class Bar {
+    getTestValue() {
+        return 'test from Bar'
+    }
+    getBarValue() {
+        return 'hello from Bar'
+    }
+}
+
+class Baz {
+     getTestValue() {
+        return 'test from Bar'
+    }
+    getBarValue() {
+        return 'hello from Bar'
+    }
+    getBazValue() {
+        return 'hello from Baz'
+    }
+}
+
+// Extend Foo and mixin properties and methods from Bar, Baz, Faz
+// Precedence for accessing properties and methods is left to right:
+// SpecialFoo, Foo, Bar, ... etc
+class SpecialFoo extends superclass(Foo, Bar, Baz) {
+    constructor(props) {
+        super(props)
+    }
+    getTestValue() {
+        return 'test from SpecialFoo'
+    }
+}
+
+const specialFoo = new SpecialFoo
+specialFoo.getTestValue() // 'test from SpecialFoo'
+specialFoo.getBarValue() // 'test from Bar'
+specialFoo.getBazValue() // 'test from Baz'
+
 ````
+
+## methods
+
 ### `superclass`
 ```javascript
 /**
