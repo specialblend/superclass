@@ -1,4 +1,6 @@
+import * as R from 'ramda';
 import { PrettyError } from '@specialblend/pretty-error';
+import util from 'util';
 
 const copyPrototype = (target, source) => {
     for (const prop of Reflect.ownKeys(source.prototype)) {
@@ -10,6 +12,8 @@ const copyPrototype = (target, source) => {
     }
 };
 
+const matches = R.flip(R.ifElse(R.is(Function), R.is, R.equals));
+
 /**
  * Superclass Symbol, used to identity Superclass
  * @type {symbol}
@@ -20,6 +24,23 @@ export const __superclass__ = Symbol('__superclass__');
 export class SuperclassError extends PrettyError {}
 
 /**
+ * Assert provided object is equal to or instance of allowed types
+ * @param provided
+ * @param name
+ * @param allowed
+ * @returns {boolean}
+ */
+const assertType = (provided, name, ...allowed) => {
+    if (R.any(matches(provided), allowed)) {
+        return true;
+    }
+    throw new SuperclassError(`provided invalid type for ${name}:`, {
+        allowed,
+        provided,
+    });
+};
+
+/**
  * create a subclass of provided base class whose constructor
  * will receive arguments transformed by provided transformer function
  * @param {Class} base: the base class to extend
@@ -27,13 +48,8 @@ export class SuperclassError extends PrettyError {}
  * @returns {Class}: the created subclass
  */
 export const mixin = (base, transform) => {
-    if (typeof base !== 'function') {
-        throw new SuperclassError('invalid base provided!', {
-            message: 'argument 1 must be of type function',
-            received: base,
-            receivedType: typeof base,
-        });
-    }
+    assertType(base, `argument 1 of ${util.inspect(mixin)}`, Function);
+    assertType(transform, `argument 2 of ${util.inspect(mixin)}`, Function, null, undefined);
     return class extends base {
         constructor(...props) {
             if (transform === null) {
@@ -45,14 +61,10 @@ export const mixin = (base, transform) => {
                 return;
             }
             if (typeof transform === 'function') {
-                super(...transform(...props));
-                return;
+                const transformedProps = transform(...props);
+                assertType(transformedProps, `result of calling ${util.inspect(transform)}`, Array);
+                super(...transformedProps);
             }
-            throw new SuperclassError('invalid map provided!', {
-                message: 'argument 2 must be of type function, null or undefined',
-                received: transform,
-                receivedType: typeof map,
-            });
         }
     };
 };
@@ -64,6 +76,7 @@ export const mixin = (base, transform) => {
  * @returns {Class}: the created Superclass
  */
 export const superclass = (base, ...supertypes) => {
+    assertType(base, `argument 1 of ${util.inspect(superclass)}`, Function);
     const subtype = class extends base {
         constructor(...props) {
             super(...props);
