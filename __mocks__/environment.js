@@ -3,5 +3,5 @@
  * @return {undefined}
  */
 module.exports = () => {
-    process.env.DEBUG = 'true';
+    // process.env.foo = 'bar';
 };

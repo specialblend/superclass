@@ -1,14 +1,17 @@
 {
-  "main": "index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.umd.js",
   "version": "0.0.0",
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",
     "lint": "eslint .",
-    "build": "webpack",
+    "build": "rollup -c",
     "check": "npm run build && npm run test && npm run coverage && npm run lint",
     "pretest": "npm run build",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "build:dev": "rollup -c -w"
   },
   "files": [
     "dist"
@@ -46,13 +49,12 @@
     "eslint": "^5.15.3",
     "eslint-plugin-babel": "^5.3.0",
     "jest": "^24.5.0",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "jest-extended": "^0.11.1",
+    "rollup": "^1.7.2"
   },
   "dependencies": {
     "@sindresorhus/is": "^0.15.0",
     "@specialblend/is-constructable": "0.0.1",
-    "jest-extended": "^0.11.1",
     "ramda": "^0.26.1"
   }
 }

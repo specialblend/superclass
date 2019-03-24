@@ -16,7 +16,7 @@ module.exports = {
         '<rootDir>/dist/',
         '<rootDir>/coverage/',
         '<rootDir>/jest.config.js',
-        '<rootDir>/webpack.config.js',
+        '<rootDir>/rollup.config.js',
     ],
     globalSetup: './__mocks__/environment.js',
     setupFilesAfterEnv: ['./__mocks__/support.js'],
