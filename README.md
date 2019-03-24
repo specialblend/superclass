@@ -26,10 +26,11 @@ export const superclass = (base, ...supertypes) => {
 #### example: `superclass`
 
 ```javascript
+import SomeLogger from '@example/some-logger'
 import { superclass } from '@specialblend/superclass'
 import { EventEmitter } from 'events'
 
-class Logger {
+class Logger extends SomeLogger {
     info(message) {
         console.log(message);
     }
