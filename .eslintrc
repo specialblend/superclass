@@ -3,6 +3,7 @@
   "rules": {
     "constructor-super": "off",
     "valid-jsdoc": "off",
-    "no-new": "off"
+    "no-new": "off",
+    "init-declarations": "off"
   }
 }

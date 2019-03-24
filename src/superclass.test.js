@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 
 import { mixin, superclass, SuperclassError } from './superclass';
+import { EventEmitter } from 'events';
 
 describe('mixin', () => {
     test('is a function', () => {
@@ -269,5 +270,54 @@ describe('superclass', () => {
             expect(say).toHaveBeenCalledWith('Whats up John Smith...');
             expect(say).toHaveBeenCalledWith('Bye John Smith. See you never!');
         });
+    });
+});
+
+describe('Example: EmitterLogger', () => {
+    let logger;
+    const consoleLog = jest.fn();
+    const consoleError = jest.fn();
+    const infoEvent = jest.fn();
+    const errorEvent = jest.fn();
+    const infoMessage = `this is a test info message - ${Math.random()}`;
+    const errorMessage = `this is a test error message - ${Math.random()}`;
+    class Logger {
+        info(message) {
+            consoleLog(message);
+        }
+        error(message) {
+            consoleError(message);
+        }
+    }
+    class EmitterLogger extends superclass(Logger, EventEmitter) {
+        info(message) {
+            super.info(message);
+            this.emit('info', message);
+        }
+        error(message) {
+            super.error(message);
+            this.emit('error', message);
+        }
+    }
+    beforeAll(() => {
+        logger = new EmitterLogger;
+        logger.on('info', infoEvent);
+        logger.on('error', errorEvent);
+        logger.info(infoMessage);
+        logger.error(errorMessage);
+    });
+    test('is a function', () => {
+        expect(EmitterLogger).toBeFunction();
+    });
+    test('returns instance of Logger', () => {
+        expect(logger).toBeInstanceOf(Logger);
+    });
+    test('calls console with expected messages', () => {
+        expect(consoleLog).toHaveBeenCalledWith(infoMessage);
+        expect(consoleError).toHaveBeenCalledWith(errorMessage);
+    });
+    test('emits expected events', () => {
+        expect(infoEvent).toHaveBeenCalledWith(infoMessage);
+        expect(errorEvent).toHaveBeenCalledWith(errorMessage);
     });
 });
