@@ -32,9 +32,7 @@ describe('superclass', () => {
     }
 
     class Parent extends Root {
-        // [__root__](...args) {
-        //     return super[__root__](...args);
-        // }
+
     }
 
     class SaysHello extends Parent {
@@ -276,5 +274,13 @@ describe('Example: EmitterLogger', () => {
     test('emits expected events', () => {
         expect(infoEvent).toHaveBeenCalledWith(infoMessage);
         expect(errorEvent).toHaveBeenCalledWith(errorMessage);
+    });
+});
+
+describe('works with Function base', () => {
+    test('does not throw', () => {
+        expect(() => {
+            new class foo extends superclass(Function, Array) {};
+        }).not.toThrow();
     });
 });
