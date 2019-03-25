@@ -19,10 +19,8 @@ export const superclass = (base, ...types) => {
             }
         }
     };
-    if (types.length) {
-        for (const supertype of supertypes) {
-            add(subtype.prototype, scanPrototype(supertype));
-        }
+    for (const supertype of supertypes) {
+        add(subtype.prototype, scanPrototype(supertype));
     }
     return subtype;
 };
