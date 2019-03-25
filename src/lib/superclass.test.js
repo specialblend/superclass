@@ -3,6 +3,9 @@ import { superclass } from './superclass';
 import { mixin } from './mixin';
 
 describe('superclass', () => {
+    const __root__ = Symbol('__root__');
+    const __branch__ = Symbol('__branch__');
+    const __leaf__ = Symbol('__leaf__');
     const __foo__ = Symbol('__foo__');
     const __bar__ = Symbol('__bar__');
     const __baz__ = Symbol('__baz__');
@@ -10,8 +13,33 @@ describe('superclass', () => {
     const __superFoo__ = Symbol('__superFoo__');
     const __superDuperFoo__ = Symbol('__superDuperFoo__');
 
-    class SaysHello {
+    class Root {
+        [__root__]() {
+            return __root__;
+        }
+    }
+
+    class Branch {
+        [__branch__]() {
+            return __branch__;
+        }
+    }
+
+    class Leaf extends Branch {
+        [__leaf__]() {
+            return __leaf__;
+        }
+    }
+
+    class Parent extends Root {
+        // [__root__](...args) {
+        //     return super[__root__](...args);
+        // }
+    }
+
+    class SaysHello extends Parent {
         constructor(message) {
+            super(message);
             this.message = message;
             if (typeof this.messages === 'undefined') {
                 this.messages = {};
@@ -48,10 +76,10 @@ describe('superclass', () => {
 
     class Baz extends SaysHello {
         [__foo__]() {
-            return __bar__;
+            return __baz__;
         }
         [__bar__]() {
-            return __bar__;
+            return __baz__;
         }
         [__baz__]() {
             return __baz__;
@@ -70,7 +98,7 @@ describe('superclass', () => {
         }
     }
 
-    class Faz extends superclass(Foo, Bar, Baz) {
+    class Faz extends superclass(Foo, Bar, Baz, Leaf) {
         [__faz__]() {
 
         }
@@ -110,6 +138,7 @@ describe('superclass', () => {
             });
             test('has expected super props', () => {
                 expect(typeof superFoo[__foo__]).toBe('function');
+                expect(typeof superFoo[__root__]).toBe('function');
             });
         });
         describe('of single defaultExport', () => {
@@ -131,6 +160,7 @@ describe('superclass', () => {
                     });
                 });
                 test('has expected super props', () => {
+                    expect(typeof superDuperFoo[__root__]).toBe('function');
                     expect(typeof superDuperFoo[__superFoo__]).toBe('function');
                     expect(typeof superDuperFoo[__foo__]).toBe('function');
                 });
@@ -156,9 +186,12 @@ describe('superclass', () => {
                 });
             });
             test('has expected super props', () => {
+                expect(typeof faz[__root__]).toBe('function');
                 expect(typeof faz[__foo__]).toBe('function');
                 expect(typeof faz[__bar__]).toBe('function');
                 expect(typeof faz[__baz__]).toBe('function');
+                expect(typeof faz[__leaf__]).toBe('function');
+                expect(typeof faz[__branch__]).toBe('function');
             });
             test('respects order of operations', () => {
                 expect(faz[__foo__]()).toBe(__foo__);
