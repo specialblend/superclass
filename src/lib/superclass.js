@@ -1,9 +1,9 @@
 import assert from 'assert';
 import isConstructable from '@specialblend/is-constructable';
-import { add } from './common';
+import { add, scanPrototype } from './common';
 
 /**
- * create a defaultExport from a parent class and provided sister classes
+ * create a Superclass from a parent class and provided sister classes
  * @param {Class} base: the base class to extend
  * @param types
  * @returns {Class}: the created defaultExport
@@ -20,7 +20,7 @@ export const superclass = (base, ...types) => {
         }
     };
     for (const supertype of supertypes) {
-        add(subtype.prototype, supertype);
+        add(subtype.prototype, scanPrototype(supertype));
     }
     return subtype;
 };

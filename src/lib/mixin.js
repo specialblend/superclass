@@ -1,9 +1,7 @@
 import assert from 'assert';
 import is from '@sindresorhus/is/dist/index';
 import isConstructable from '@specialblend/is-constructable';
-import { assertTypes, add } from './common';
-
-const __mixin__ = Symbol('__mixin__');
+import { assertTypes } from './common';
 
 /**
  * create a subclass of provided base class whose constructor
@@ -32,8 +30,6 @@ export const mixin = (base, transform) => {
             }
             super(transformedProps);
         }
-        [__mixin__]() {}
     };
-    add(mix.prototype, base);
     return mix;
 };

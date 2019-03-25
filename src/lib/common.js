@@ -35,17 +35,13 @@ export const scanPrototype = R.memoizeWith(R.identity, source => {
     return Object.assign({}, scanPrototype(Reflect.getPrototypeOf(source)), original);
 });
 
-
-export const add = (target, source) => {
-    const original = Object.assign({}, target);
-    return Object.assign(target, scanPrototype(source), original);
-};
-
 /**
- * Copy prototype from source to target
+ * Copy source to target without overwriting
  * @param target
  * @param source
+ * @returns {*}
  */
-export const copyPrototype = (target, source) => {
-    return add(target.prototype, source);
+export const add = (target, source) => {
+    const original = Object.assign({}, target);
+    return Object.assign(target, source, original);
 };
