@@ -1,20 +1,6 @@
 import assert from 'assert';
 import isConstructable from '@specialblend/is-constructable';
-
-/**
- * Copy prototype from source  to target
- * @param target
- * @param source
- */
-const copyPrototype = (target, source) => {
-    for (const prop of Reflect.ownKeys(source.prototype)) {
-        if (typeof prop === 'symbol' || !prop.match(/^(?:constructor|prototype|arguments|caller|name|bind|call|apply|toString|length)$/)) {
-            if (typeof target.prototype[prop] === 'undefined') {
-                Object.assign(target.prototype, { [prop]: source.prototype[prop] });
-            }
-        }
-    }
-};
+import { copyPrototype } from './common';
 
 /**
  * create a defaultExport from a parent class and provided sister classes
@@ -27,15 +13,17 @@ export const superclass = (base, ...supertypes) => {
     const subtype = class extends base {
         constructor(...props) {
             super(...props);
+            const originalObj = Object.assign({}, this);
+            const superprops = {};
             for (const Supertype of supertypes.reverse()) {
-                const obj = {};
-                Object.assign(obj, new Supertype(...props), this);
-                Object.assign(this, obj);
+                Object.assign(superprops, new Supertype(...props));
             }
+            Object.assign(this, superprops, originalObj);
         }
     };
-    for (const supertype of supertypes) {
+    for (const supertype of supertypes.reverse()) {
         copyPrototype(subtype, supertype);
     }
+    copyPrototype(subtype, base);
     return subtype;
 };
