@@ -1,7 +1,7 @@
 import assert from 'assert';
 import is from '@sindresorhus/is/dist/index';
 import isConstructable from '@specialblend/is-constructable';
-import { assertTypes } from './common';
+import { add, assertTypes, scanPrototype } from './common';
 
 /**
  * create a subclass of provided base class whose constructor
@@ -13,7 +13,7 @@ import { assertTypes } from './common';
 export const mixin = (base, transform) => {
     assert(isConstructable(base), 'base must be constructable');
     assertTypes(transform, 'transformer must be Function, null or undefined', [is.function, is.nullOrUndefined]);
-    return class extends base {
+    const mixed = class extends base {
         constructor(...props) {
             if (transform === null) {
                 super();
@@ -31,4 +31,6 @@ export const mixin = (base, transform) => {
             super(transformedProps);
         }
     };
+    add(mixed.prototype, scanPrototype(base));
+    return mixed;
 };
