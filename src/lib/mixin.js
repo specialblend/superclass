@@ -13,7 +13,7 @@ import { assertTypes } from './common';
 export const mixin = (base, transform) => {
     assert(isConstructable(base), 'base must be constructable');
     assertTypes(transform, 'transformer must be Function, null or undefined', [is.function, is.nullOrUndefined]);
-    const mix = class extends base {
+    return class extends base {
         constructor(...props) {
             if (transform === null) {
                 super();
@@ -31,5 +31,4 @@ export const mixin = (base, transform) => {
             super(transformedProps);
         }
     };
-    return mix;
 };
