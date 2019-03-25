@@ -26,9 +26,7 @@ export const scanPrototype = R.memoizeWith(R.identity, source => {
     }
     for (const prop of Reflect.ownKeys(source.prototype)) {
         if (typeof prop === 'symbol' || !prop.match(/^(?:constructor|prototype|arguments|caller|name|bind|call|apply|toString|length)$/)) {
-            if (typeof target[prop] === 'undefined') {
-                target[prop] = source.prototype[prop];
-            }
+            target[prop] = source.prototype[prop];
         }
     }
     const original = Object.assign({}, target);
