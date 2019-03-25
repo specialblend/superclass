@@ -1,7 +1,7 @@
 import assert from 'assert';
 import is from '@sindresorhus/is/dist/index';
 import isConstructable from '@specialblend/is-constructable';
-import { assertTypes, copyPrototype } from './common';
+import { assertTypes, add } from './common';
 
 const __mixin__ = Symbol('__mixin__');
 
@@ -34,6 +34,6 @@ export const mixin = (base, transform) => {
         }
         [__mixin__]() {}
     };
-    copyPrototype(mix, base);
+    add(mix.prototype, base);
     return mix;
 };

@@ -36,7 +36,7 @@ export const scanPrototype = R.memoizeWith(R.identity, source => {
 });
 
 
-export const copy = (target, source) => {
+export const add = (target, source) => {
     const original = Object.assign({}, target);
     return Object.assign(target, scanPrototype(source), original);
 };
@@ -47,5 +47,5 @@ export const copy = (target, source) => {
  * @param source
  */
 export const copyPrototype = (target, source) => {
-    return copy(target.prototype, source);
+    return add(target.prototype, source);
 };
